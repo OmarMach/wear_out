@@ -19,7 +19,7 @@ class CartScreen extends StatelessWidget {
       backgroundColor: backgroundColor,
       body: Column(
         children: [
-          SafeArea(
+          const SafeArea(
             bottom: false,
             child: CartAppBar(
               title: 'MY CART',
@@ -37,7 +37,7 @@ class CartScreen extends StatelessWidget {
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(
                       Icons.close,
                       color: golden,
@@ -57,16 +57,16 @@ class CartScreen extends StatelessWidget {
               ),
             ),
           ),
-          CartItem(),
-          Spacer(),
+          const CartItem(),
+          const Spacer(),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Divider(color: golden),
+                const Divider(color: golden),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
+                  children: const [
                     Text(
                       'TOTAL',
                       style: TextStyle(
@@ -109,7 +109,7 @@ class CartScreen extends StatelessWidget {
                   top: false,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Icon(
                         Icons.shopping_basket,
                         color: backgroundColor,
@@ -173,14 +173,14 @@ class CartItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'LEATHER JACKET WITH SOFTNESS',
                       style: TextStyle(
                         fontFamily: 'Vidaloka',
                         color: backgroundColor,
                       ),
                     ),
-                    Divider(color: backgroundColor),
+                    const Divider(color: backgroundColor),
                     Expanded(
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -190,7 +190,7 @@ class CartItem extends StatelessWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
+                              children: const [
                                 Text(
                                   'SIZE : M',
                                   style: TextStyle(
@@ -225,7 +225,7 @@ class CartItem extends StatelessWidget {
                                 Expanded(
                                   child: Container(
                                     color: lightBlue,
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.add,
                                       color: golden,
                                     ),
@@ -234,7 +234,7 @@ class CartItem extends StatelessWidget {
                                 Expanded(
                                   child: Container(
                                     color: lightBlue,
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.remove,
                                       color: golden,
                                     ),

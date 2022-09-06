@@ -18,13 +18,13 @@ class OrderScreen extends StatelessWidget {
         child: Theme(
           data: Theme.of(context).copyWith(
             inputDecorationTheme: InputDecorationTheme(
-              enabledBorder: UnderlineInputBorder(
+              enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: golden),
               ),
-              focusedBorder: UnderlineInputBorder(
+              focusedBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: orange),
               ),
-              floatingLabelStyle: TextStyle(
+              floatingLabelStyle: const TextStyle(
                 color: golden,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Vidaloka',
@@ -34,7 +34,7 @@ class OrderScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Vidaloka',
               ),
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 color: golden,
                 fontFamily: 'Vidaloka',
               ),
@@ -45,7 +45,7 @@ class OrderScreen extends StatelessWidget {
             width: size.width,
             child: Column(
               children: [
-                SafeArea(
+                const SafeArea(
                   bottom: false,
                   child: CartAppBar(title: 'CHECK-OUT'),
                 ),
@@ -55,7 +55,7 @@ class OrderScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Row(
-                    children: [
+                    children: const [
                       Expanded(child: Divider(color: golden)),
                       Text(
                         'PAYEMENT INFORMATION',
@@ -73,7 +73,7 @@ class OrderScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      TextField(
+                      const TextField(
                         style: TextStyle(
                           color: golden,
                           fontFamily: 'Vidaloka',
@@ -87,7 +87,7 @@ class OrderScreen extends StatelessWidget {
                         ),
                       ),
                       verticalSeparator,
-                      TextField(
+                      const TextField(
                         style: TextStyle(
                           color: golden,
                           fontFamily: 'Vidaloka',
@@ -105,7 +105,7 @@ class OrderScreen extends StatelessWidget {
                         ),
                       ),
                       verticalSeparator,
-                      TextField(
+                      const TextField(
                         style: TextStyle(
                           color: golden,
                           fontFamily: 'Vidaloka',
@@ -121,7 +121,7 @@ class OrderScreen extends StatelessWidget {
                       SizedBox(
                         width: size.width,
                         child: Row(
-                          children: [
+                          children: const [
                             Flexible(
                               child: TextField(
                                 style: TextStyle(
@@ -157,8 +157,8 @@ class OrderScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Spacer(),
-                PayButton(),
+                const Spacer(),
+                const PayButton(),
               ],
             ),
           ),
@@ -191,7 +191,7 @@ class OrderItems extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Row(
-                  children: [
+                  children: const [
                     Expanded(child: Divider(color: backgroundColor)),
                     horizontalSeparator,
                     Text(
@@ -215,7 +215,7 @@ class OrderItems extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           'LEATHER JACKET WITH SOFTNESS',
                           style: TextStyle(
@@ -234,7 +234,7 @@ class OrderItems extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Text(
+                  const Text(
                     'X 1',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -254,7 +254,7 @@ class OrderItems extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           'TAX',
                           style: TextStyle(
@@ -284,7 +284,7 @@ class OrderItems extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           'SHIPPING',
                           style: TextStyle(
@@ -306,10 +306,10 @@ class OrderItems extends StatelessWidget {
                 ],
               ),
               verticalSeparator,
-              Divider(color: backgroundColor),
+              const Divider(color: backgroundColor),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
+                children: const [
                   Text(
                     'TOTAL',
                     style: TextStyle(
@@ -349,7 +349,7 @@ class PayButton extends StatelessWidget {
       onTap: () {
         showDialog(
           context: context,
-          builder: (context) => OrderConfirmDialog(),
+          builder: (context) => const OrderConfirmDialog(),
         );
       },
       child: Container(
@@ -360,7 +360,7 @@ class PayButton extends StatelessWidget {
           child: Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Text(
                   'PAY NOW',
                   style: TextStyle(
@@ -393,7 +393,7 @@ class OrderConfirmDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: golden,
-      title: Center(
+      title: const Center(
         child: Text(
           'PROCESSING PAYEMENT',
           style: TextStyle(
@@ -406,7 +406,7 @@ class OrderConfirmDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(
+          child: const Text(
             'Cancel',
             style: TextStyle(
               fontWeight: FontWeight.bold,
@@ -417,7 +417,7 @@ class OrderConfirmDialog extends StatelessWidget {
         ),
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(
+          child: const Text(
             'OK',
             style: TextStyle(
               fontWeight: FontWeight.bold,
@@ -429,7 +429,7 @@ class OrderConfirmDialog extends StatelessWidget {
       ],
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: const [
           Text(
             'Please wait while we process the payement.',
             style: TextStyle(

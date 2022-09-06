@@ -220,7 +220,7 @@ class ProductGridListItem extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  product.price.toString() + ' \$',
+                                  '${product.price} \$',
                                   style: const TextStyle(
                                     fontFamily: 'Vidaloka',
                                     fontWeight: FontWeight.bold,
@@ -296,7 +296,7 @@ class CarouselProductsList extends StatelessWidget {
                     ),
                     verticalSeparator,
                     Text(
-                      product.name.toUpperCase() + ' • ${product.price} \$',
+                      '${product.name.toUpperCase()} • ${product.price} \$',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,

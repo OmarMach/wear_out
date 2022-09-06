@@ -111,7 +111,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         padding: EdgeInsets.only(left: 8.0),
                         child: Text(
                           'SIZE',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 18,
                             fontFamily: 'Vidaloka',
                             color: golden,

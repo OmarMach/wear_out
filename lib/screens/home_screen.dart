@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../colors.dart';
@@ -26,9 +27,10 @@ class HomeScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             const EcommerceAppbar(),
-            // const CategorySelectorWidget(),
+            const CategorySelectorWidget(),
             Expanded(
               child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
                 child: Column(
                   children: const [
                     NewArrivalWidget(),
@@ -55,8 +57,8 @@ class ForMenWidget extends StatelessWidget {
       children: [
         Hero(
           tag: 'Mens',
-          child: Image.network(
-            'https://images.pexels.com/photos/10040216/pexels-photo-10040216.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+          child: CachedNetworkImage(
+            imageUrl: 'https://images.pexels.com/photos/10040216/pexels-photo-10040216.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
             fit: BoxFit.cover,
             width: size.width,
           ),
@@ -130,8 +132,8 @@ class ForWomenWidget extends StatelessWidget {
         children: [
           Hero(
             tag: 'Womens',
-            child: Image.network(
-              'https://images.pexels.com/photos/10147898/pexels-photo-10147898.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
+            child: CachedNetworkImage(
+              imageUrl: 'https://images.pexels.com/photos/10147898/pexels-photo-10147898.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
               fit: BoxFit.cover,
             ),
           ),
@@ -240,8 +242,8 @@ class NewArrivalWidget extends StatelessWidget {
               width: size.width,
               child: Hero(
                 tag: 'https://images.pexels.com/photos/6976004/pexels-photo-6976004.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-                child: Image.network(
-                  'https://images.pexels.com/photos/6976004/pexels-photo-6976004.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+                child: CachedNetworkImage(
+                  imageUrl: 'https://images.pexels.com/photos/6976004/pexels-photo-6976004.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
                   fit: BoxFit.cover,
                 ),
               ),

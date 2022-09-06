@@ -9,7 +9,7 @@ import 'screens/products_list_screen.dart';
 import 'screens/wishlist_screen.dart';
 import 'screens/womens_browse_products_screen.dart';
 
-void main() => runApp(WearOutApp());
+void main() => runApp(const WearOutApp());
 
 class WearOutApp extends StatelessWidget {
   const WearOutApp({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class WearOutApp extends StatelessWidget {
         ProductsListScreen.routeName: (context) => const ProductsListScreen(),
         WishlistScreen.routeName: (context) => const WishlistScreen(),
       },
-      title: 'Material App',
+      title: 'WearOut',
       home: const HomeScreen(),
     );
   }
