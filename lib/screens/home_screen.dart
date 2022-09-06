@@ -10,9 +10,20 @@ import 'mens_browse_screen.dart';
 import 'product_details_screen.dart';
 import 'womens_browse_products_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const routeName = '/Ecommerce';
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey newArrival = GlobalKey();
+  final GlobalKey womens = GlobalKey();
+  final GlobalKey mens = GlobalKey();
+
+  int currentlyFocusedSection = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +38,109 @@ class HomeScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             const EcommerceAppbar(),
-            const CategorySelectorWidget(),
+            Container(
+              height: kToolbarHeight,
+              decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black))),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () async {
+                        await Scrollable.ensureVisible(
+                          newArrival.currentContext!,
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.easeIn,
+                        );
+                        currentlyFocusedSection = 0;
+                        setState(() {});
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: currentlyFocusedSection == 0 ? Colors.black : Colors.transparent,
+                          border: const Border(right: BorderSide(color: Colors.black)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'NEW ARRIVAL',
+                            style: TextStyle(
+                              color: currentlyFocusedSection == 0 ? Colors.white : Colors.black,
+                              fontFamily: 'Vidaloka',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () async {
+                        await Scrollable.ensureVisible(
+                          womens.currentContext!,
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.easeIn,
+                        );
+                        currentlyFocusedSection = 1;
+                        setState(() {});
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: currentlyFocusedSection == 1 ? Colors.black : Colors.transparent,
+                          border: const Border(right: BorderSide(color: Colors.black)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'FOR WOMEN',
+                            style: TextStyle(
+                              color: currentlyFocusedSection == 1 ? Colors.white : Colors.black,
+                              fontFamily: 'Vidaloka',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () async {
+                        await Scrollable.ensureVisible(
+                          mens.currentContext!,
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.easeIn,
+                        );
+                        currentlyFocusedSection = 2;
+                        setState(() {});
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: currentlyFocusedSection == 2 ? Colors.black : Colors.transparent,
+                          border: const Border(
+                            left: BorderSide(color: Colors.black),
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'FOR MEN',
+                            style: TextStyle(
+                              color: currentlyFocusedSection == 2 ? Colors.white : Colors.black,
+                              fontFamily: 'Vidaloka',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
                 child: Column(
-                  children: const [
-                    NewArrivalWidget(),
-                    ForWomenWidget(),
-                    ForMenWidget(),
+                  children: [
+                    NewArrivalWidget(key: newArrival),
+                    ForWomenWidget(key: womens),
+                    ForMenWidget(key: mens),
                   ],
                 ),
               ),
@@ -318,62 +423,6 @@ class NewArrivalWidget extends StatelessWidget {
             )
           ],
         ),
-      ),
-    );
-  }
-}
-
-class CategorySelectorWidget extends StatelessWidget {
-  const CategorySelectorWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: kToolbarHeight,
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Container(
-              decoration: const BoxDecoration(color: Colors.black, border: Border(right: BorderSide(color: Colors.black))),
-              child: const Center(
-                child: Text(
-                  'NEW ARRIVAL',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Vidaloka',
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const Expanded(
-            child: Center(
-              child: Text(
-                'FOR WOMEN',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Vidaloka',
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: const BoxDecoration(border: Border(left: BorderSide(color: Colors.black))),
-              child: const Center(
-                child: Text(
-                  'FOR MEN',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Vidaloka',
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
