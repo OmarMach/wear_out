@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import 'package:wear_out/widgets/product_search_delegate.dart';
 
 import '../colors.dart';
@@ -142,9 +143,45 @@ class _HomeScreenState extends State<HomeScreen> {
                 physics: const ClampingScrollPhysics(),
                 child: Column(
                   children: [
-                    NewArrivalWidget(key: newArrival),
-                    ForWomenWidget(key: womens),
-                    ForMenWidget(key: mens),
+                    VisibilityDetector(
+                      onVisibilityChanged: (visibilityInfo) {
+                        if (visibilityInfo.visibleFraction * 100 >= 30) {
+                          if (currentlyFocusedSection != 0) {
+                            setState(() {
+                              currentlyFocusedSection = 0;
+                            });
+                          }
+                        }
+                      },
+                      key: newArrival,
+                      child: const NewArrivalWidget(),
+                    ),
+                    VisibilityDetector(
+                      onVisibilityChanged: (visibilityInfo) {
+                        if (visibilityInfo.visibleFraction * 100 >= 30) {
+                          if (currentlyFocusedSection != 1) {
+                            setState(() {
+                              currentlyFocusedSection = 1;
+                            });
+                          }
+                        }
+                      },
+                      key: womens,
+                      child: const ForWomenWidget(),
+                    ),
+                    VisibilityDetector(
+                      onVisibilityChanged: (visibilityInfo) {
+                        if (visibilityInfo.visibleFraction * 100 >= 30) {
+                          if (currentlyFocusedSection != 2) {
+                            setState(() {
+                              currentlyFocusedSection = 2;
+                            });
+                          }
+                        }
+                      },
+                      key: mens,
+                      child: const ForMenWidget(),
+                    ),
                   ],
                 ),
               ),
