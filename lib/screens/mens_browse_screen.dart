@@ -9,7 +9,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../colors.dart';
 import '../context.dart';
-import '../data/ecommerce_data.dart';
+import '../data/mock_data.dart';
 import '../styles.dart';
 import '../utils.dart';
 import '../widgets/cart_appbar.dart';

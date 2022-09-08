@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -8,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../colors.dart';
 import '../context.dart';
-import '../data/ecommerce_data.dart';
+import '../data/mock_data.dart';
 import '../utils.dart';
 
 import 'package:shimmer/shimmer.dart';
@@ -177,7 +175,6 @@ class ProductGridListItem extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
-                  onTap: () => print('e'),
                   child: ClipOval(
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),

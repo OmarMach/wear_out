@@ -232,3 +232,13 @@ final List<Product> limitedEditionProductsMen = [
         'https://images.unsplash.com/photo-1614548142401-ce00952f66da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDN8fHN1bmdsYXNzZXMlMjBtYW58ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60',
   ),
 ];
+
+List<Product> get allProducts {
+  final List<Product> all = [];
+  all.addAll(menAccessoires);
+  all.addAll(topSalesProducts);
+  all.addAll(limitedEditionProductsMen);
+  all.addAll(discoverProducts);
+  all.addAll(products);
+  return all;
+}

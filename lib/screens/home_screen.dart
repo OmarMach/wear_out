@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:wear_out/widgets/product_search_delegate.dart';
 
 import '../colors.dart';
 import '../context.dart';
-import '../data/ecommerce_data.dart';
+import '../data/mock_data.dart';
 import '../utils.dart';
 import '../widgets/drawer_menu.dart';
 import 'mens_browse_screen.dart';
@@ -46,8 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: () async {
-                        await Scrollable.ensureVisible(
+                      onTap: () {
+                        Scrollable.ensureVisible(
                           newArrival.currentContext!,
                           duration: const Duration(seconds: 1),
                           curve: Curves.easeIn,
@@ -55,7 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         currentlyFocusedSection = 0;
                         setState(() {});
                       },
-                      child: Container(
+                      child: AnimatedContainer(
+                        duration: const Duration(seconds: 1),
                         decoration: BoxDecoration(
                           color: currentlyFocusedSection == 0 ? Colors.black : Colors.transparent,
                           border: const Border(right: BorderSide(color: Colors.black)),
@@ -74,8 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () async {
-                        await Scrollable.ensureVisible(
+                      onTap: () {
+                        Scrollable.ensureVisible(
                           womens.currentContext!,
                           duration: const Duration(seconds: 1),
                           curve: Curves.easeIn,
@@ -83,7 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         currentlyFocusedSection = 1;
                         setState(() {});
                       },
-                      child: Container(
+                      child: AnimatedContainer(
+                        duration: const Duration(seconds: 1),
                         decoration: BoxDecoration(
                           color: currentlyFocusedSection == 1 ? Colors.black : Colors.transparent,
                           border: const Border(right: BorderSide(color: Colors.black)),
@@ -103,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () async {
-                        await Scrollable.ensureVisible(
+                        Scrollable.ensureVisible(
                           mens.currentContext!,
                           duration: const Duration(seconds: 1),
                           curve: Curves.easeIn,
@@ -111,7 +114,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         currentlyFocusedSection = 2;
                         setState(() {});
                       },
-                      child: Container(
+                      child: AnimatedContainer(
+                        duration: const Duration(seconds: 1),
                         decoration: BoxDecoration(
                           color: currentlyFocusedSection == 2 ? Colors.black : Colors.transparent,
                           border: const Border(
@@ -467,6 +471,9 @@ class EcommerceAppbar extends StatelessWidget {
             height: kToolbarHeight,
             decoration: const BoxDecoration(border: Border(left: BorderSide(color: Colors.black))),
             child: GestureDetector(
+              onTap: () {
+                showSearch(context: context, delegate: ProductSearchDelegate());
+              },
               child: const Padding(
                 padding: EdgeInsets.all(10.0),
                 child: Icon(Icons.search),

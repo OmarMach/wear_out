@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../colors.dart';
 import '../context.dart';
 import '../utils.dart';
-import '../data/ecommerce_data.dart';
+import '../data/mock_data.dart';
 import '../widgets/back_button_widget.dart';
 import '../widgets/favorite_button.dart';
 import '../widgets/shimmer_image.dart';
