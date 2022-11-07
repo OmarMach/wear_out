@@ -1,9 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:wear_out/providers/cart_provider.dart';
+import 'package:wear_out/styles.dart';
 
 import '../colors.dart';
 import '../context.dart';
+import '../models/cart.dart';
 import '../utils.dart';
 import '../widgets/cart_appbar.dart';
 import 'order_screen.dart';
@@ -17,131 +21,238 @@ class CartScreen extends StatelessWidget {
     final size = getSize(context);
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: Column(
-        children: [
-          const SafeArea(
-            bottom: false,
-            child: CartAppBar(
-              title: 'MY CART',
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 40,
-              width: size.width,
-              decoration: BoxDecoration(
-                border: Border.all(color: golden),
-                color: orange,
-              ),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.close,
-                      color: golden,
-                    ),
-                    horizontalSeparator,
-                    Text(
-                      'CLEAR CART',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: golden,
-                        fontSize: 20,
-                        fontFamily: 'Vidaloka',
-                      ),
-                    ),
-                  ],
-                ),
+      body: Consumer<CartProvider>(builder: (context, provider, _) {
+        return Column(
+          children: [
+            const SafeArea(
+              bottom: false,
+              child: CartAppBar(
+                title: 'MY CART',
               ),
             ),
-          ),
-          const CartItem(),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                const Divider(color: golden),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: const [
-                    Text(
-                      'TOTAL',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: golden,
-                        fontSize: 20,
-                        fontFamily: 'Vidaloka',
-                      ),
-                    ),
-                    Text(
-                      '•',
-                      style: TextStyle(
-                        color: golden,
-                        fontSize: 20,
-                        fontFamily: 'Vidaloka',
-                      ),
-                    ),
-                    // horizontalSeparator,
-                    Text(
-                      '750,00 \$',
-                      style: TextStyle(
-                        color: orange,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        fontFamily: 'Vidaloka',
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Container(
-            height: 70,
-            color: golden,
-            child: GestureDetector(
-              onTap: () => Navigator.pushNamed(context, OrderScreen.routeName),
-              child: Center(
-                child: SafeArea(
-                  top: false,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(
-                        Icons.shopping_basket,
-                        color: backgroundColor,
-                      ),
-                      horizontalSeparator,
-                      Text(
-                        'CHECKOUT',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: backgroundColor,
-                          fontSize: 20,
-                          fontFamily: 'Vidaloka',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+            Expanded(
+              child: Builder(
+                builder: (context) {
+                  return provider.cart.cartItems.isEmpty ? const EmptyCartWidget() : CartItemsWidget(size: size);
+                },
               ),
-            ),
-          )
-        ],
-      ),
+            )
+          ],
+        );
+      }),
     );
   }
 }
 
-class CartItem extends StatelessWidget {
-  const CartItem({Key? key}) : super(key: key);
+class EmptyCartWidget extends StatelessWidget {
+  const EmptyCartWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.shopping_cart,
+                  color: golden.withOpacity(.4),
+                  size: getSize(context).width / 3,
+                ),
+                const Text(
+                  'Your cart is empty',
+                  style: serifSubTitle,
+                ),
+                verticalSeparator,
+                const Text(
+                  'Looks like you haven\'t added any product to your cart yet.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: golden),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Container(
+          height: 70,
+          color: golden,
+          child: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Center(
+              child: SafeArea(
+                top: false,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.shopping_bag,
+                      color: backgroundColor,
+                    ),
+                    horizontalSeparator,
+                    Text(
+                      'BROWSE PRODUCTS',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: backgroundColor,
+                        fontSize: 20,
+                        fontFamily: 'Vidaloka',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class CartItemsWidget extends StatelessWidget {
+  const CartItemsWidget({
+    Key? key,
+    required this.size,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    final CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            height: 40,
+            decoration: BoxDecoration(
+              border: Border.all(color: golden),
+              color: orange,
+            ),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(
+                    Icons.close,
+                    color: backgroundColor,
+                  ),
+                  horizontalSeparator,
+                  Text(
+                    'CLEAR CART',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: backgroundColor,
+                      fontSize: 20,
+                      fontFamily: 'Vidaloka',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: cartProvider.cart.cartItems.length,
+            itemBuilder: (BuildContext context, int index) {
+              return CartItemWidget(cartItem: cartProvider.cart.cartItems.elementAt(index));
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              const Divider(color: golden),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const Text(
+                    'TOTAL',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: golden,
+                      fontSize: 20,
+                      fontFamily: 'Vidaloka',
+                    ),
+                  ),
+                  const Text(
+                    '•',
+                    style: TextStyle(
+                      color: golden,
+                      fontSize: 20,
+                      fontFamily: 'Vidaloka',
+                    ),
+                  ),
+                  // horizontalSeparator,
+                  Text(
+                    '${cartProvider.cart.calculateCartTotalPrice()} \$',
+                    style: const TextStyle(
+                      color: orange,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontFamily: 'Vidaloka',
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Container(
+          height: 70,
+          color: golden,
+          child: GestureDetector(
+            onTap: () => Navigator.pushNamed(context, OrderScreen.routeName),
+            child: Center(
+              child: SafeArea(
+                top: false,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.credit_score_outlined,
+                      color: backgroundColor,
+                    ),
+                    horizontalSeparator,
+                    Text(
+                      'CHECKOUT',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: backgroundColor,
+                        fontSize: 20,
+                        fontFamily: 'Vidaloka',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class CartItemWidget extends StatelessWidget {
+  const CartItemWidget({Key? key, required this.cartItem}) : super(key: key);
+
+  final CartItem cartItem;
 
   @override
   Widget build(BuildContext context) {
     final size = getSize(context);
+    final CartProvider provider = Provider.of<CartProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Container(
@@ -151,18 +262,15 @@ class CartItem extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Hero(
-                tag: 'Arrival',
-                child: CachedNetworkImage(
-                  placeholder: (context, _) => Shimmer.fromColors(
-                    baseColor: golden.withOpacity(0.2),
-                    highlightColor: golden.withOpacity(0.25),
-                    enabled: true,
-                    child: Container(color: golden),
-                  ),
-                  imageUrl: 'https://images.pexels.com/photos/6976004/pexels-photo-6976004.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-                  fit: BoxFit.fitWidth,
+              child: CachedNetworkImage(
+                placeholder: (context, _) => Shimmer.fromColors(
+                  baseColor: golden.withOpacity(0.2),
+                  highlightColor: golden.withOpacity(0.25),
+                  enabled: true,
+                  child: Container(color: golden),
                 ),
+                imageUrl: cartItem.product.coverImage,
+                fit: BoxFit.fitWidth,
               ),
             ),
             Expanded(
@@ -171,12 +279,14 @@ class CartItem extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Text(
-                      'LEATHER JACKET WITH SOFTNESS',
-                      style: TextStyle(
+                    Text(
+                      cartItem.product.name.toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
                         fontFamily: 'Vidaloka',
+                        fontWeight: FontWeight.bold,
                         color: backgroundColor,
                       ),
                     ),
@@ -190,26 +300,26 @@ class CartItem extends StatelessWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              children: const [
+                              children: [
                                 Text(
-                                  'SIZE : M',
-                                  style: TextStyle(
+                                  'Size • ${cartItem.size}',
+                                  style: const TextStyle(
                                     fontFamily: 'Vidaloka',
                                     color: backgroundColor,
                                   ),
                                 ),
-                                Divider(color: backgroundColor),
+                                const Divider(color: backgroundColor),
                                 Text(
-                                  'UNIT PRICE • 750,00 \$',
-                                  style: TextStyle(
+                                  'UNIT PRICE • ${cartItem.product.price} \$',
+                                  style: const TextStyle(
                                     fontFamily: 'Vidaloka',
                                     color: backgroundColor,
                                   ),
                                 ),
-                                Divider(color: backgroundColor),
+                                const Divider(color: backgroundColor),
                                 Text(
-                                  '1 X UNIT(S)',
-                                  style: TextStyle(
+                                  '${cartItem.quantity} x UNIT(S)',
+                                  style: const TextStyle(
                                     fontFamily: 'Vidaloka',
                                     color: backgroundColor,
                                   ),
@@ -223,20 +333,30 @@ class CartItem extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 Expanded(
-                                  child: Container(
-                                    color: lightBlue,
-                                    child: const Icon(
-                                      Icons.add,
-                                      color: golden,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      provider.addProduct(product: cartItem.product, size: 'M');
+                                    },
+                                    child: Container(
+                                      color: lightBlue,
+                                      child: const Icon(
+                                        Icons.add,
+                                        color: golden,
+                                      ),
                                     ),
                                   ),
                                 ),
                                 Expanded(
-                                  child: Container(
-                                    color: lightBlue,
-                                    child: const Icon(
-                                      Icons.remove,
-                                      color: golden,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      provider.decrementProductQuantity(product: cartItem.product, size: cartItem.size);
+                                    },
+                                    child: Container(
+                                      color: lightBlue,
+                                      child: const Icon(
+                                        Icons.remove,
+                                        color: golden,
+                                      ),
                                     ),
                                   ),
                                 ),

@@ -5,7 +5,7 @@ import 'package:wear_out/widgets/product_search_delegate.dart';
 
 import '../colors.dart';
 import '../context.dart';
-import '../data/mock_data.dart';
+import '../models/product.dart';
 import '../utils.dart';
 import '../widgets/drawer_menu.dart';
 import 'mens_browse_screen.dart';
@@ -433,7 +433,7 @@ class NewArrivalWidget extends StatelessWidget {
                     description: 'Lorem ipsum sit dolor amen',
                     price: 450,
                     stock: 2,
-                    sizes: ['M'],
+                    sizes: ['M', 'S', 'L', 'XS'],
                     coverImage: 'https://images.pexels.com/photos/6976004/pexels-photo-6976004.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
                   ),
                 ),

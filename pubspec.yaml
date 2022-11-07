@@ -38,6 +38,7 @@ dependencies:
   shimmer: ^2.0.0
   carousel_slider: ^4.1.1
   visibility_detector: ^0.3.3
+  provider: ^6.0.3
 
 dev_dependencies:
   flutter_test:

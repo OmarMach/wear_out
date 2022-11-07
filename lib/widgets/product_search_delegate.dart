@@ -7,6 +7,8 @@ import 'package:wear_out/screens/product_details_screen.dart';
 import 'package:wear_out/styles.dart';
 import 'package:wear_out/utils.dart';
 
+import '../models/product.dart';
+
 class ProductSearchDelegate extends SearchDelegate {
   @override
   String? get searchFieldLabel => 'Search Products';

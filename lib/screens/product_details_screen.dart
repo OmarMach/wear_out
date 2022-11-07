@@ -3,17 +3,22 @@ import 'package:flutter/material.dart';
 
 import '../colors.dart';
 import '../context.dart';
+import '../models/product.dart';
 import '../utils.dart';
-import '../data/mock_data.dart';
 import '../widgets/back_button_widget.dart';
 import '../widgets/favorite_button.dart';
 import '../widgets/shimmer_image.dart';
-import 'cart_screen.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsScreen extends StatefulWidget {
   static const routeName = '/ecom/product';
   const ProductDetailsScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  int selectedSizeIndex = 0;
   @override
   Widget build(BuildContext context) {
     final size = getSize(context);
@@ -122,7 +127,24 @@ class ProductDetailsScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ...product.sizes.map((e) => ClothingSizeWidget(sizeLabel: e)).toList(),
+                            ...product.sizes.map(
+                              (e) {
+                                final currentSizeIndex = product.sizes.indexOf(e);
+                                return Flexible(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedSizeIndex = currentSizeIndex;
+                                      });
+                                    },
+                                    child: ClothingSizeWidget(
+                                      sizeLabel: e,
+                                      isSelected: currentSizeIndex == selectedSizeIndex,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ).toList(),
                           ],
                         ),
                       if (product.sizes.isEmpty) NoSizesWidget(size: size),
@@ -133,36 +155,35 @@ class ProductDetailsScreen extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
-            height: 70,
-            child: GestureDetector(
-              onTap: () => Navigator.pushNamed(context, CartScreen.routeName),
-              child: Container(
-                width: size.width,
-                height: kTextTabBarHeight,
-                decoration: const BoxDecoration(
-                  color: golden,
-                ),
-                child: SafeArea(
-                  top: false,
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.shopping_bag,
-                          color: Colors.white,
-                        ),
-                        horizontalSeparator,
-                        Text(
-                          'ADD TO CART',
-                          style: TextStyle(
-                            fontFamily: 'Vidaloka',
+          Container(
+            color: golden,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SafeArea(
+                top: false,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.shopping_bag,
                             color: Colors.white,
                           ),
-                        ),
-                      ],
-                    ),
+                          horizontalSeparator,
+                          Text(
+                            'ADD TO CART',
+                            style: TextStyle(
+                              fontFamily: 'Vidaloka',
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -332,29 +353,27 @@ class ClothingSizeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: FittedBox(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            height: 50,
-            width: 50,
-            decoration: !isSelected
-                ? BoxDecoration(
-                    border: Border.all(
-                      color: golden,
-                    ),
-                  )
-                : const BoxDecoration(color: golden),
-            child: Center(
-              child: FittedBox(
-                child: Text(
-                  sizeLabel,
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontFamily: 'Vidaloka',
-                    color: !isSelected ? golden : backgroundColor,
+    return FittedBox(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          height: 50,
+          width: 50,
+          decoration: !isSelected
+              ? BoxDecoration(
+                  border: Border.all(
+                    color: golden,
                   ),
+                )
+              : const BoxDecoration(color: golden),
+          child: Center(
+            child: FittedBox(
+              child: Text(
+                sizeLabel,
+                style: TextStyle(
+                  fontSize: 30,
+                  fontFamily: 'Vidaloka',
+                  color: !isSelected ? golden : backgroundColor,
                 ),
               ),
             ),

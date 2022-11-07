@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../colors.dart';
 import '../context.dart';
 import '../data/mock_data.dart';
+import '../models/product.dart';
 import '../utils.dart';
 
 import 'package:shimmer/shimmer.dart';
