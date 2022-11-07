@@ -1,22 +1,5 @@
 import '../models/product.dart';
 
-final List<Product> products = [
-  Product(
-    name: 'Living room lamp',
-    description: 'Lorem ipsum sit dolor amen lorem ipsum sit dolor amen lorem ipsum sit dolor amen. ',
-    price: 15,
-    stock: 100,
-    coverImage: 'https://s.alicdn.com/@sc04/kf/H3226cd173ffc42b5a1d92d5e6443a504i.jpg_300x300.jpg',
-  ),
-  Product(
-    name: 'Lamp',
-    description: 'LED lamp with ',
-    price: 15,
-    stock: 100,
-    coverImage: 'https://s.alicdn.com/@sc04/kf/H3226cd173ffc42b5a1d92d5e6443a504i.jpg_300x300.jpg',
-  ),
-];
-
 final List<Product> topSalesProducts = [
   Product(
       name: 'Blue Dress',
@@ -25,6 +8,19 @@ final List<Product> topSalesProducts = [
       stock: 100,
       salePercentage: 12,
       sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+      images: [
+        'https://images.unsplash.com/photo-1556437298-3c544908b65c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80',
+        'https://images.unsplash.com/photo-1597393931076-df9825ceccbe?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=630&q=80',
+        'https://images.unsplash.com/photo-1611091041358-603235165458?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+        'https://images.unsplash.com/photo-1607624461245-99225cf482e8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8Ymx1ZSUyMGRyZXNzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
+        'https://images.unsplash.com/photo-1495385794356-15371f348c31?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGJsdWUlMjBkcmVzc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+        'https://images.unsplash.com/photo-1563202914-241a53fe720e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGJsdWUlMjBkcmVzc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+        'https://images.unsplash.com/photo-1596637510298-637b184503e1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fGJsdWUlMjBkcmVzc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+        'https://images.unsplash.com/photo-1562554935-55329094e723?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjN8fGJsdWUlMjBkcmVzc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+        'https://images.unsplash.com/photo-1596047510016-0055e71b35d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjR8fGJsdWUlMjBkcmVzc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+        'https://images.unsplash.com/photo-1496217590455-aa63a8350eea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjh8fGJsdWUlMjBkcmVzc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+        'https://images.unsplash.com/photo-1618143789423-747133b775e1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjl8fGJsdWUlMjBkcmVzc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+      ],
       coverImage:
           'https://images.unsplash.com/photo-1611091041358-603235165458?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'),
   Product(
@@ -89,6 +85,11 @@ final List<Product> discoverProducts = [
     description: 'Lorem ipsum sit dolor amen lorem ipsum sit dolor amen lorem ipsum sit dolor amen',
     price: 120,
     stock: 3,
+    images: [
+      'https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHVyc2V8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60',
+      'https://images.unsplash.com/photo-1601992490256-4b3342c775e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=972&q=80',
+      'https://plus.unsplash.com/premium_photo-1664391609354-aea29792e2ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHVyc2V8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60',
+    ],
     coverImage:
         'https://images.unsplash.com/photo-1601992490256-4b3342c775e8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=972&q=80',
   ),
@@ -220,6 +221,5 @@ List<Product> get allProducts {
   all.addAll(topSalesProducts);
   all.addAll(limitedEditionProductsMen);
   all.addAll(discoverProducts);
-  all.addAll(products);
   return all;
 }

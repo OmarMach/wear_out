@@ -377,6 +377,36 @@ class CartItemWidget extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: Material(
+                                    color: lightBlue,
+                                    child: InkWell(
+                                      splashColor: orange,
+                                      onTap: () {
+                                        provider.addProduct(product: cartItem.product, size: cartItem.size);
+                                      },
+                                      child: const Icon(
+                                        Icons.add,
+                                        color: golden,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Material(
+                                    color: lightBlue,
+                                    child: InkWell(
+                                      splashColor: orange,
+                                      onTap: () {
+                                        provider.decrementProductQuantity(product: cartItem.product, size: cartItem.size);
+                                      },
+                                      child: const Icon(
+                                        Icons.remove,
+                                        color: golden,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Material(
                                     color: orange,
                                     child: InkWell(
                                       splashColor: lightBlue,
@@ -420,36 +450,6 @@ class CartItemWidget extends StatelessWidget {
                                       },
                                       child: const Icon(
                                         Icons.close,
-                                        color: golden,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Material(
-                                    color: lightBlue,
-                                    child: InkWell(
-                                      splashColor: orange,
-                                      onTap: () {
-                                        provider.addProduct(product: cartItem.product, size: cartItem.size);
-                                      },
-                                      child: const Icon(
-                                        Icons.add,
-                                        color: golden,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Material(
-                                    color: lightBlue,
-                                    child: InkWell(
-                                      splashColor: orange,
-                                      onTap: () {
-                                        provider.decrementProductQuantity(product: cartItem.product, size: cartItem.size);
-                                      },
-                                      child: const Icon(
-                                        Icons.remove,
                                         color: golden,
                                       ),
                                     ),

@@ -6,7 +6,7 @@ class Product {
   final int price;
   final int stock;
   final List<String> sizes;
-  final List<String> images = [];
+  final List<String> images;
 
   Product({
     required this.name,
@@ -16,5 +16,6 @@ class Product {
     required this.coverImage,
     this.salePercentage,
     this.sizes = const [],
+    this.images = const [],
   });
 }

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +12,7 @@ import '../utils.dart';
 import '../widgets/back_button_widget.dart';
 import '../widgets/favorite_button.dart';
 import '../widgets/shimmer_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   static const routeName = '/ecom/product';
@@ -21,6 +24,11 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int selectedSizeIndex = 0;
+  int selectedImage = 0;
+
+  final CarouselController carouselController = CarouselController();
+  final CarouselController miniatureCarouselController = CarouselController();
+
   @override
   Widget build(BuildContext context) {
     final size = getSize(context);
@@ -32,17 +40,130 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         children: [
           Expanded(
             flex: 2,
-            child: ProductImageWidget(
-              imageUrl: product.coverImage,
-              size: size,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Builder(
+                  builder: (context) {
+                    return product.images.isEmpty
+                        ? ProductImageWidget(imageUrl: product.coverImage)
+                        : CarouselSlider(
+                            carouselController: carouselController,
+                            options: CarouselOptions(
+                              onPageChanged: (index, reason) {
+                                miniatureCarouselController.animateToPage(index);
+                              },
+                              enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                              aspectRatio: 1,
+                              disableCenter: true,
+                              enlargeCenterPage: false,
+                              pageSnapping: true,
+                              reverse: false,
+                              viewportFraction: 1,
+                              initialPage: product.images.indexWhere((element) => element == product.coverImage),
+                              scrollPhysics: const ClampingScrollPhysics(),
+                              enableInfiniteScroll: false,
+                            ),
+                            items: product.images
+                                .map(
+                                  (imageUrl) => GestureDetector(
+                                    onTap: () {
+                                      miniatureCarouselController.animateToPage(product.images.indexWhere((element) => element == imageUrl));
+                                    },
+                                    child: ProductImageWidget(imageUrl: imageUrl),
+                                  ),
+                                )
+                                .toList(),
+                          );
+                  },
+                ),
+                if (product.images.isNotEmpty) ...[
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 10,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ClipRRect(
+                          child: Container(
+                            color: lightBlue.withOpacity(.2),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(
+                                sigmaX: 5,
+                                sigmaY: 5,
+                              ),
+                              child: SizedBox(
+                                height: 60,
+                                width: product.images.length * 100 >= getSize(context).width ? getSize(context).width : product.images.length * 100,
+                                child: CarouselSlider(
+                                  carouselController: miniatureCarouselController,
+                                  options: CarouselOptions(
+                                    aspectRatio: 1,
+                                    enableInfiniteScroll: false,
+                                    disableCenter: false,
+                                    height: 60,
+                                    enlargeCenterPage: true,
+                                    initialPage: product.images.indexWhere((element) => element == product.coverImage),
+                                    viewportFraction: .15,
+                                    enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                                    onPageChanged: (index, reason) {
+                                      carouselController.animateToPage(index);
+                                    },
+                                  ),
+                                  items: product.images
+                                      .map(
+                                        (imageUrl) => GestureDetector(
+                                          onTap: () {
+                                            carouselController.animateToPage(product.images.indexWhere((element) => element == imageUrl));
+                                          },
+                                          child: CachedNetworkImage(
+                                            placeholder: (context, _) => const ShimmerImagePlaceHolder(),
+                                            imageUrl: imageUrl,
+                                            width: getSize(context).width,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  verticalSeparator,
+                ],
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          BackButtonWidget(),
+                          FavoriteIconWidget(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
+          // Expanded(
+          //   child: ProductImageWidget(imageUrl: product.coverImage),
+          //   flex: 2,
+          // ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                verticalSeparator,
-                const CurrentImageIndicator(),
                 verticalSeparator,
                 Expanded(
                   child: Padding(
@@ -59,7 +180,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               Text(
                                 product.name,
                                 style: const TextStyle(
-                                  fontFamily: 'Vidaloka',
                                   fontSize: 20,
                                   color: golden,
                                 ),
@@ -70,7 +190,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 maxLines: 2,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
-                                  fontFamily: 'Vidaloka',
                                   fontSize: 12,
                                   color: golden,
                                 ),
@@ -86,7 +205,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               Text(
                                 '${product.price} \$',
                                 style: const TextStyle(
-                                  fontFamily: 'Vidaloka',
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                   color: orange,
@@ -96,7 +214,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 'IN-STOCK (${product.stock})',
                                 style: const TextStyle(
                                   fontSize: 9,
-                                  fontFamily: 'Vidaloka',
                                   fontWeight: FontWeight.bold,
                                   color: golden,
                                 ),
@@ -120,7 +237,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           'SIZE',
                           style: TextStyle(
                             fontSize: 18,
-                            fontFamily: 'Vidaloka',
                             color: golden,
                           ),
                         ),
@@ -196,7 +312,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             Text(
                               'ADD TO CART',
                               style: TextStyle(
-                                fontFamily: 'Vidaloka',
                                 color: Colors.white,
                               ),
                             ),
@@ -239,7 +354,6 @@ class NoSizesWidget extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               color: golden,
-              fontFamily: 'Vidaloka',
             ),
           ),
         ),
@@ -251,7 +365,11 @@ class NoSizesWidget extends StatelessWidget {
 class CurrentImageIndicator extends StatelessWidget {
   const CurrentImageIndicator({
     Key? key,
+    required this.currentImageIndex,
+    required this.imagesLenght,
   }) : super(key: key);
+
+  final int currentImageIndex, imagesLenght;
 
   @override
   Widget build(BuildContext context) {
@@ -317,46 +435,21 @@ class CurrentImageIndicator extends StatelessWidget {
 class ProductImageWidget extends StatelessWidget {
   const ProductImageWidget({
     Key? key,
-    required this.size,
     required this.imageUrl,
   }) : super(key: key);
-
-  final Size size;
 
   final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Hero(
-          tag: imageUrl,
-          child: CachedNetworkImage(
-            placeholder: (context, _) => const ShimmerImagePlaceHolder(),
-            imageUrl: imageUrl,
-            width: size.width,
-            fit: BoxFit.cover,
-          ),
-        ),
-        Positioned(
-          top: 0,
-          right: 0,
-          left: 0,
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  BackButtonWidget(),
-                  FavoriteIconWidget(),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
+    return Hero(
+      tag: imageUrl,
+      child: CachedNetworkImage(
+        placeholder: (context, _) => const ShimmerImagePlaceHolder(),
+        imageUrl: imageUrl,
+        width: getSize(context).width,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }
@@ -392,7 +485,6 @@ class ClothingSizeWidget extends StatelessWidget {
                 sizeLabel,
                 style: TextStyle(
                   fontSize: 30,
-                  fontFamily: 'Vidaloka',
                   color: !isSelected ? golden : backgroundColor,
                 ),
               ),

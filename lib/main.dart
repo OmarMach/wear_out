@@ -10,7 +10,6 @@ import 'screens/mens_browse_screen.dart';
 import 'screens/order_screen.dart';
 import 'screens/product_details_screen.dart';
 import 'screens/products_list_screen.dart';
-import 'screens/test_screen.dart';
 import 'screens/wishlist_screen.dart';
 import 'screens/womens_browse_products_screen.dart';
 
@@ -38,6 +37,7 @@ class WearOutApp extends StatelessWidget {
         },
 
         theme: ThemeData(
+          fontFamily: 'Vidaloka',
           dialogBackgroundColor: golden,
           dialogTheme: const DialogTheme(
             backgroundColor: golden,
