@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wear_out/providers/cart_provider.dart';
 
 import '../colors.dart';
 import '../context.dart';
@@ -155,35 +157,53 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ],
             ),
           ),
-          Container(
-            color: golden,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SafeArea(
-                top: false,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            Icons.shopping_bag,
-                            color: Colors.white,
-                          ),
-                          horizontalSeparator,
-                          Text(
-                            'ADD TO CART',
-                            style: TextStyle(
-                              fontFamily: 'Vidaloka',
+          GestureDetector(
+            onTap: () {
+              Provider.of<CartProvider>(context, listen: false).addProduct(
+                product: product,
+                size: product.sizes[selectedSizeIndex],
+              );
+              ScaffoldMessenger.of(context).clearSnackBars();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: golden,
+                  dismissDirection: DismissDirection.startToEnd,
+                  content: Text('${product.name} • Added successfully.'),
+                  duration: const Duration(milliseconds: 500),
+                ),
+              );
+            },
+            child: Container(
+              color: golden,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SafeArea(
+                  top: false,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(
+                              Icons.shopping_bag,
                               color: Colors.white,
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                            horizontalSeparator,
+                            Text(
+                              'ADD TO CART',
+                              style: TextStyle(
+                                fontFamily: 'Vidaloka',
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
