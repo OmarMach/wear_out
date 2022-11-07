@@ -6,6 +6,11 @@ import '../models/cart.dart';
 class CartProvider with ChangeNotifier {
   final Cart cart = Cart();
 
+  void clearCart() {
+    cart.cartItems.clear();
+    notifyListeners();
+  }
+
   bool productAlreadyInCart(Product product, String size) {
     try {
       cart.cartItems.firstWhere((element) => element.product == product && element.size == size);
@@ -35,7 +40,6 @@ class CartProvider with ChangeNotifier {
   }
 
   void deleteProduct({required Product product, required String size}) {
-    print('Deleting');
     cart.cartItems.removeWhere((element) => element.product == product && element.size == size);
     notifyListeners();
   }

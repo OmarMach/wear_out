@@ -129,39 +129,80 @@ class CartItemsWidget extends StatelessWidget {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            height: 40,
-            decoration: BoxDecoration(
-              border: Border.all(color: golden),
-              color: orange,
-            ),
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(
-                    Icons.close,
-                    color: backgroundColor,
+        GestureDetector(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Center(child: Text('Clear cart')),
+                content: const Text(
+                  'Are you sure that you want to remove all the selected products from your cart?',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: orange,
+                        fontFamily: 'Vidaloka',
+                      ),
+                    ),
                   ),
-                  horizontalSeparator,
-                  Text(
-                    'CLEAR CART',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: backgroundColor,
-                      fontSize: 20,
-                      fontFamily: 'Vidaloka',
+                  TextButton(
+                    onPressed: () {
+                      cartProvider.clearCart();
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'Yes',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: orange,
+                        fontFamily: 'Vidaloka',
+                      ),
                     ),
                   ),
                 ],
+              ),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                border: Border.all(color: golden),
+                color: orange,
+              ),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.close,
+                      color: backgroundColor,
+                    ),
+                    horizontalSeparator,
+                    Text(
+                      'CLEAR CART',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: backgroundColor,
+                        fontSize: 20,
+                        fontFamily: 'Vidaloka',
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
         Expanded(
           child: ListView.builder(
+            padding: const EdgeInsets.all(0),
             itemCount: cartProvider.cart.cartItems.length,
             itemBuilder: (BuildContext context, int index) {
               return CartItemWidget(cartItem: cartProvider.cart.cartItems.elementAt(index));
@@ -301,14 +342,16 @@ class CartItemWidget extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  'Size • ${cartItem.size}',
-                                  style: const TextStyle(
-                                    fontFamily: 'Vidaloka',
-                                    color: backgroundColor,
+                                if (cartItem.size.isNotEmpty) ...[
+                                  Text(
+                                    'Size • ${cartItem.size}',
+                                    style: const TextStyle(
+                                      fontFamily: 'Vidaloka',
+                                      color: backgroundColor,
+                                    ),
                                   ),
-                                ),
-                                const Divider(color: backgroundColor),
+                                  const Divider(color: backgroundColor),
+                                ],
                                 Text(
                                   'UNIT PRICE • ${cartItem.product.price} \$',
                                   style: const TextStyle(
@@ -333,12 +376,63 @@ class CartItemWidget extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 Expanded(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      provider.addProduct(product: cartItem.product, size: 'M');
-                                    },
-                                    child: Container(
-                                      color: lightBlue,
+                                  child: Material(
+                                    color: orange,
+                                    child: InkWell(
+                                      splashColor: lightBlue,
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title: const Center(child: Text('Remove product from cart')),
+                                            content: const Text(
+                                              'Are you sure that you want to remove the selected product from your cart?',
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(context),
+                                                child: const Text(
+                                                  'Cancel',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: orange,
+                                                    fontFamily: 'Vidaloka',
+                                                  ),
+                                                ),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  provider.deleteProduct(product: cartItem.product, size: cartItem.size);
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text(
+                                                  'Yes',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: orange,
+                                                    fontFamily: 'Vidaloka',
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      child: const Icon(
+                                        Icons.close,
+                                        color: golden,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Material(
+                                    color: lightBlue,
+                                    child: InkWell(
+                                      splashColor: orange,
+                                      onTap: () {
+                                        provider.addProduct(product: cartItem.product, size: cartItem.size);
+                                      },
                                       child: const Icon(
                                         Icons.add,
                                         color: golden,
@@ -347,12 +441,13 @@ class CartItemWidget extends StatelessWidget {
                                   ),
                                 ),
                                 Expanded(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      provider.decrementProductQuantity(product: cartItem.product, size: cartItem.size);
-                                    },
-                                    child: Container(
-                                      color: lightBlue,
+                                  child: Material(
+                                    color: lightBlue,
+                                    child: InkWell(
+                                      splashColor: orange,
+                                      onTap: () {
+                                        provider.decrementProductQuantity(product: cartItem.product, size: cartItem.size);
+                                      },
                                       child: const Icon(
                                         Icons.remove,
                                         color: golden,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wear_out/colors.dart';
 import 'package:wear_out/providers/cart_provider.dart';
 import 'package:wear_out/widgets/scroll_behaviour.dart';
 
@@ -35,7 +36,22 @@ class WearOutApp extends StatelessWidget {
           ProductsListScreen.routeName: (context) => const ProductsListScreen(),
           WishlistScreen.routeName: (context) => const WishlistScreen(),
         },
-        theme: ThemeData(),
+
+        theme: ThemeData(
+          dialogBackgroundColor: golden,
+          dialogTheme: const DialogTheme(
+            backgroundColor: golden,
+            contentTextStyle: TextStyle(
+              color: backgroundColor,
+              fontFamily: 'Vidaloka',
+            ),
+            titleTextStyle: TextStyle(
+              color: backgroundColor,
+              fontSize: 20,
+              fontFamily: 'Vidaloka',
+            ),
+          ),
+        ),
         title: 'WearOut',
         builder: (context, widget) {
           return ScrollConfiguration(behavior: const ScrollBehaviorModified(), child: widget!);

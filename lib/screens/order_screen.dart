@@ -396,11 +396,6 @@ class OrderConfirmDialog extends StatelessWidget {
       title: const Center(
         child: Text(
           'PROCESSING PAYEMENT',
-          style: TextStyle(
-            color: backgroundColor,
-            fontSize: 20,
-            fontFamily: 'Vidaloka',
-          ),
         ),
       ),
       actions: [
@@ -430,13 +425,7 @@ class OrderConfirmDialog extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: const [
-          Text(
-            'Please wait while we process the payement.',
-            style: TextStyle(
-              color: backgroundColor,
-              fontFamily: 'Vidaloka',
-            ),
-          ),
+          Text('Please wait while we process the payement.'),
           verticalSeparator,
           LinearProgressIndicator(
             color: orange,

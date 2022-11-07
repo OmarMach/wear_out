@@ -161,7 +161,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             onTap: () {
               Provider.of<CartProvider>(context, listen: false).addProduct(
                 product: product,
-                size: product.sizes[selectedSizeIndex],
+                size: product.sizes.isEmpty ? '' : product.sizes[selectedSizeIndex],
               );
               ScaffoldMessenger.of(context).clearSnackBars();
               ScaffoldMessenger.of(context).showSnackBar(
