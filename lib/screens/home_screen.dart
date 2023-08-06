@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:wear_out/providers/cart_provider.dart';
 import 'package:wear_out/widgets/product_search_delegate.dart';
 
 import '../colors.dart';
@@ -481,17 +483,7 @@ class EcommerceAppbar extends StatelessWidget {
       decoration: const BoxDecoration(border: Border.symmetric(horizontal: BorderSide(color: Colors.black))),
       child: Row(
         children: [
-          Container(
-            height: kToolbarHeight,
-            decoration: const BoxDecoration(border: Border(right: BorderSide(color: Colors.black))),
-            child: GestureDetector(
-              onTap: () => Scaffold.of(context).openDrawer(),
-              child: const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Icon(Icons.menu),
-              ),
-            ),
-          ),
+          DrawerMenuButton(),
           const Expanded(
             child: Center(
               child: Text(
@@ -518,6 +510,44 @@ class EcommerceAppbar extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class DrawerMenuButton extends StatelessWidget {
+  const DrawerMenuButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: kToolbarHeight,
+      decoration: const BoxDecoration(border: Border(right: BorderSide(color: Colors.black))),
+      child: GestureDetector(
+        onTap: () => Scaffold.of(context).openDrawer(),
+        child: Consumer<CartProvider>(builder: (context, provider, _) {
+          final bool displayBadge = provider.cart.cartItems.isNotEmpty;
+          return Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Center(child: Icon(Icons.menu)),
+                if (displayBadge)
+                  Positioned(
+                    top: -2,
+                    right: -3,
+                    child: Center(
+                      child: Badge(
+                        backgroundColor: orange,
+                        label: Text(provider.cart.cartItems.length.toString()),
+                      ),
+                    ),
+                  )
+              ],
+            ),
+          );
+        }),
       ),
     );
   }

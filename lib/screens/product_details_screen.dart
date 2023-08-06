@@ -52,6 +52,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             options: CarouselOptions(
                               onPageChanged: (index, reason) {
                                 miniatureCarouselController.animateToPage(index);
+                                selectedSizeIndex = index;
                               },
                               enlargeStrategy: CenterPageEnlargeStrategy.scale,
                               aspectRatio: 1,
@@ -67,9 +68,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             items: product.images
                                 .map(
                                   (imageUrl) => GestureDetector(
-                                    onTap: () {
-                                      miniatureCarouselController.animateToPage(product.images.indexWhere((element) => element == imageUrl));
-                                    },
+                                    onTap: () =>
+                                        miniatureCarouselController.animateToPage(product.images.indexWhere((element) => element == imageUrl)),
                                     child: ProductImageWidget(imageUrl: imageUrl),
                                   ),
                                 )
@@ -103,25 +103,35 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     enableInfiniteScroll: false,
                                     disableCenter: false,
                                     height: 60,
-                                    enlargeCenterPage: true,
+                                    // enlargeCenterPage: true,
                                     initialPage: product.images.indexWhere((element) => element == product.coverImage),
                                     viewportFraction: .15,
                                     enlargeStrategy: CenterPageEnlargeStrategy.scale,
                                     onPageChanged: (index, reason) {
                                       carouselController.animateToPage(index);
+                                      selectedSizeIndex = index;
                                     },
                                   ),
                                   items: product.images
                                       .map(
                                         (imageUrl) => GestureDetector(
-                                          onTap: () {
-                                            carouselController.animateToPage(product.images.indexWhere((element) => element == imageUrl));
-                                          },
-                                          child: CachedNetworkImage(
-                                            placeholder: (context, _) => const ShimmerImagePlaceHolder(),
-                                            imageUrl: imageUrl,
-                                            width: getSize(context).width,
-                                            fit: BoxFit.cover,
+                                          onTap: () => carouselController.animateToPage(product.images.indexWhere((element) => element == imageUrl)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: orange,
+                                                  width: 2,
+                                                ),
+                                              ),
+                                              child: CachedNetworkImage(
+                                                placeholder: (context, _) => const ShimmerImagePlaceHolder(),
+                                                imageUrl: imageUrl,
+                                                width: getSize(context).width,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       )
